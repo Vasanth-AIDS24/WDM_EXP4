@@ -1,5 +1,5 @@
 ### EX4 Implementation of Cluster and Visitor Segmentation for Navigation patterns
-### DATE: 
+### DATE: 07-02-2026
 ### AIM: To implement Cluster and Visitor Segmentation for Navigation patterns in Python.
 ### Description:
 <div align= "justify">Cluster visitor segmentation refers to the process of grouping or categorizing visitors to a website, 
@@ -15,35 +15,53 @@
 
 ### Program:
 ```python
-# Visitor segmentation based on characteristics
-# read the data
-/*WRITE YOUR CODE HERE
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# Perform segmentation based on characteristics (e.g., age groups)
-/*WRITE YOUR CODE HERE
+df = pd.read_csv("/clustervisitor.csv")
+
+cluster = {
+    "young": df['Age'] <= 30,
+    "Middle": (df['Age'] > 30) & (df['Age'] < 50),
+    "old": df['Age'] >= 50
+}
+
+for group, condition in cluster.items():
+    visitors = df[condition]
+    visitor_count = len(visitors)
+
+    print(f"\nVisitors in {group} group:")
+    print(visitors)
+    print(f"Total visitors: {visitor_count}")
 
 ```
 ### Output:
+<img width="351" height="685" alt="image" src="https://github.com/user-attachments/assets/29d1b08b-1e3c-4cfc-bc1f-c2c02151cc45" />
 
 ### Visualization:
 ```python
-# Create a list to store counts of visitors in each age group
-/*WRITE YOUR CODE HERE
+df['Income'] = df['Age'].apply(
+    lambda x: 20000 + x*1200 if x <= 30 else 30000 + x*1800
+)
 
-# Count visitors in each age group
-/*WRITE YOUR CODE HERE
-    
-# Define age group labels and plot a bar chart
-/*WRITE YOUR CODE HERE
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
-plt.figure(figsize=(8, 6))
-plt.bar(age_group_labels, visitor_counts, color='skyblue')
-plt.xlabel('Age Groups')
-plt.ylabel('Number of Visitors')
-plt.title('Visitor Distribution Across Age Groups')
-plt.show()
+df1 = df['Age']
+df2 = df['Income']
+df3 = pd.concat([df1,df2],axis=1)
+
+s = StandardScaler()
+new_df = s.fit_transform(df3)
+mean = KMeans(n_clusters = 3, random_state=42)
+df3['Cluster'] = mean.fit_predict(new_df)
+df3
 ```
 ### Output:
 
+<img width="285" height="619" alt="image" src="https://github.com/user-attachments/assets/37cfd4e3-e272-4f8c-b37c-646469201f36" />
+
 
 ### Result:
+Cluster and Visitor Segmentation for Navigation patterns in Python has been successfully implemented.
+
